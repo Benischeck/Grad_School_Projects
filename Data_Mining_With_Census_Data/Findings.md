@@ -1,6 +1,6 @@
-#**<ins>The U.S. Census</ins>**
+ # **<ins>The U.S. Census</ins>**
 
-![Uncle Sam](https://www.dropbox.com/scl/fi/8fi5v7e6hwaqk33p14vie/Uncle-Sam-Cover-Photo.png?raw=1)
+![](https://www.dropbox.com/scl/fi/8fi5v7e6hwaqk33p14vie/Uncle-Sam-Cover-Photo.png?raw=1)
 
 ## A socioeconomic look at factors indicative of wealth
 
