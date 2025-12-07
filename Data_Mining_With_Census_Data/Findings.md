@@ -1,66 +1,59 @@
- # **<ins>The U.S. Census</ins>**
+<div align="center" id="user-content-toc">
+  <ul align="center" style="list-style: none;">
+    <summary>
+      <h1>The U.S. Census</h1>
+    </summary>
+  </ul>
+</div>
 
-![](https://www.dropbox.com/scl/fi/8fi5v7e6hwaqk33p14vie/Uncle-Sam-Cover-Photo.png?raw=1)
-
-## A socioeconomic look at factors indicative of wealth
-
-
-
-
-"Any society, any nation, is judged on the basis of how it treats its weakest members -- the last, the least, the littlest." – (Cardinal Roger Mahoney, 1998, Creating a Culture of Life)
-
-A group effort by:
-
-John Benischeck
-Tommy Baw
-Shachi Parikh
-Xiaoqin Helen Yi
-Xiaomeng Blair Chen
-
-Table of Contents
-Abstract3
-Introduction3
-The Data Collection process3
-The Data Cleaning process4
-Data Exploration5-7
-Predictive Modeling8-17
-GlmNet Regression8-10
-Logistic Regression10-13
-Logistic Regression14-17
-Conclusion and Remarks18
-Bibliography and References19
-Appendix20-26
-Individual Contribution and Addressing Comments27
+ <h3> <p align="center">  A socioeconomic look at factors indicative of wealth  </p> </h3> <br>
 
 
+<p align="center"> 
+	<img width="328" height="496" src= https://www.dropbox.com/scl/fi/8fi5v7e6hwaqk33p14vie/Uncle-Sam-Cover-Photo.png?rlkey=99r4vr7a7427c65xiujhp1dgt&st=l9mlo2uc&raw=1>
+</p>
 
+_<sub> 
+	<p align="center">  "Any society, any nation, is judged on the basis of how it treats its weakest members -- the last, the least, the littlest."  </p>
+	<p align="center"> – Cardinal Roger Mahoney, 1998, Creating a Culture of Life </p> 
+</sub>_
 
+<br>
+<br>
+<br>
+<br>
 
+<p align="center"> 
+	A group effort by Tommy Baw, John Benischeck, Xiaomeng Blair Chen, Shachi Parikh, Xiaoqin Helen Yi
+</p>
 
+<br>
+<br>
 
+# Table of Contents
+- Abstract
+- Introduction
+- The Data Collection process
+- The Data Cleaning process
+- Data Exploration
+- Predictive Modeling
+- GlmNet Regression
+- Logistic Regression
+- Logistic Regression
+- Conclusion and Remarks
+- Bibliography and References
+- Appendix
+- Individual Contribution and Addressing Comments
 
+<br>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Abstract
+# Abstract
 
 The purpose of this project is to identify key social/economic factors that are statistically proven to have strong influence on an individual’s level of income. The task is to build predictive models which determine whether or not a person makes more than $50,000 per year. While the predictive algorithm will be the main focus of the work, we will also use data visualization and correlation analysis to take a look at other potential correlations, such as ethnicity to education levels, and gender to income, to extract further information beyond the predictive models.
 
-Introduction
+<br>
+
+# Introduction
 
 What is the American Dream? How do I achieve it? For many, that answer, and the path to it, will vary. Inevitably, those dreams will require money to pursue and maintain. News and media outlets regularly remind us that the paths for many Americans are impeded, and even blocked, due to a host of reasons. How can these roadblocks be overcome, and even removed, for future dream-seekers?
 
@@ -68,32 +61,26 @@ What is the American Dream? How do I achieve it? For many, that answer, and the 
 
 Many questions can be answered with this trove of data. The aim of this paper, however, is to explore commonly cited reasons for income inequality in the United States, and test their validity.
 
-Data Collection
+<br>
+
+# Data Collection
 
 The dataset used in this project was pulled from the UCI Machine Learning Repository, which further cites: “Extraction was done by Barry Becker from the 1994 Census database. A set of reasonably clean records was extracted using the following conditions: ((AAGE>16) && (AGI>100) && (AFNLWGT>1)&& (HRSWK>0))” (University of California Irvine, 1994). We concatenated their test and train sets, for a total of 48,842 observations and 15 attributes. In the modeling process, the variable “salary” is treated as the response, with string values of either “over 50k” or “below 50k”, indicating personal level of wealth. 
 
+<br>
 
-
-
-
-
-
-
-Data Cleaning
+# Data Cleaning
 
 Because the response variable, along with 8 predictor variables, are categorical, dummy variables were created in order to perform predictive algorithms and modeling. For the dependent variable “salary”, the dummy labels were assigned as follows: 1 for observations of earning “over $50k” per year and 0 for earning “below $50k” per year. Similarly, the same was done with the independent variables. For example, “work class” was expanded to 9 dummy, binary variables, “education” to 17 variables, “marital status” to 7 variables, and so on. This expanded our dataset to 109 predictors, and 1 response variable, ready to enter the models.
 
-
+<br>
 
 The sub-categories of each categorical variable.
 
 Because of the categorical nature of the data, outlier detection was not a concern and, in the data exploration, we found that the sample was generally representative of the population. Additionally, it is worth noting that we observed missing values in the original dataset, and replaced them with “unknown” values. All of the missing data points were categorical and we believed that it would be more appropriate to treat “unknown” as a single dummy variable, rather than deleting an entire instance, when other information in that observation was provided. 
 
 
-
-
-
-Data Exploration
+# Data Exploration
 
 	As laid forth above, we sought to use our data to find if certain socioeconomic and demographic factors could predict whether or not an individual is wealthy (defined as making more than $50,000 per year). We looked for early indications through visualization of the data of what a regression model might include as important factors of wealth. Additionally, we used visualization to check for anomalies in the data. There were, intuitively, three factors which we felt would be major contributors to wealth: Education, Sex (gender), and Race. Good education, as the trope and mantra goes, is the key to a good job, which implies wealth. Sex and Race are frequently touted as reasons for income inequality as well, and we wished to test these notions. 
 
