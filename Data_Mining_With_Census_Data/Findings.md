@@ -65,8 +65,12 @@ Many questions can be answered with this trove of data. The aim of this paper, h
 
 # Data Collection
 
-The dataset used in this project was pulled from the UCI Machine Learning Repository, which further cites: “Extraction was done by Barry Becker from the 1994 Census database. A set of reasonably clean records was extracted using the following conditions: ((AAGE>16) && (AGI>100) && (AFNLWGT>1)&& (HRSWK>0))” (University of California Irvine, 1994). We concatenated their test and train sets, for a total of 48,842 observations and 15 attributes. In the modeling process, the variable “salary” is treated as the response, with string values of either “over 50k” or “below 50k”, indicating personal level of wealth. 
+The dataset used in this project was pulled from the UCI Machine Learning Repository<sup>1</sup>, which further cites: “_Extraction was done by Barry Becker from the 1994 Census database. A set of reasonably clean records was extracted using the following conditions: ((AAGE>16) && (AGI>100) && (AFNLWGT>1)&& (HRSWK>0))_” <sub>(University of California Irvine, 1994)</sub>. We concatenated their test and train sets, for a total of 48,842 observations and 15 attributes. In the modeling process, the variable “salary” is treated as the response, with string values of either “over 50k” or “below 50k”, indicating personal level of wealth. 
 
+<br>
+<sup>1 </sup> <sub>  The dataset comes from USI Machine Learning website http://archive.ics.uci.edu/ml/datasets/Census+Income, which was extracted from the Census Bureau database found at http://www.census.gov/ftp/pub/DES/www/welcome.html. </sub>
+
+<br>
 <br>
 
 # Data Cleaning
@@ -75,16 +79,26 @@ Because the response variable, along with 8 predictor variables, are categorical
 
 <br>
 
-The sub-categories of each categorical variable.
+<p align="center"> 
+	<img width="690" height="475" src= https://www.dropbox.com/scl/fi/l4vdb2m94al4qnf25mpr0/Data-Cleaning-1.png?rlkey=relqxshprksej86p8s7292p8q&st=edkg4kst&raw=1>
+</p>
+
+_<sub> 
+	<p align="center"> The sub-categories of each categorical variable. </p>
+</sub>_
+
+<br>
 
 Because of the categorical nature of the data, outlier detection was not a concern and, in the data exploration, we found that the sample was generally representative of the population. Additionally, it is worth noting that we observed missing values in the original dataset, and replaced them with “unknown” values. All of the missing data points were categorical and we believed that it would be more appropriate to treat “unknown” as a single dummy variable, rather than deleting an entire instance, when other information in that observation was provided. 
 
+<br>
 
 # Data Exploration
 
-	As laid forth above, we sought to use our data to find if certain socioeconomic and demographic factors could predict whether or not an individual is wealthy (defined as making more than $50,000 per year). We looked for early indications through visualization of the data of what a regression model might include as important factors of wealth. Additionally, we used visualization to check for anomalies in the data. There were, intuitively, three factors which we felt would be major contributors to wealth: Education, Sex (gender), and Race. Good education, as the trope and mantra goes, is the key to a good job, which implies wealth. Sex and Race are frequently touted as reasons for income inequality as well, and we wished to test these notions. 
+As laid forth above, we sought to use our data to find if certain socioeconomic and demographic factors could predict whether or not an individual is wealthy (defined as making more than $50,000 per year). We looked for early indications through visualization of the data of what a regression model might include as important factors of wealth. Additionally, we used visualization to check for anomalies in the data. There were, intuitively, three factors which we felt would be major contributors to wealth: Education, Sex (gender), and Race. Good education, as the trope and mantra goes, is the key to a good job, which implies wealth. Sex and Race are frequently touted as reasons for income inequality as well, and we wished to test these notions. 
 
-	First, we wanted to know if our sample was representative of the population, and Race is perhaps one of the easiest ways to measure this. Per the below, “White” is nearly the entire sample population of our dataset. However, these results are generally consistent with the 1990 Census (Appendix A.2). Dissimilar from the percentages in Appendix A.2, the UCI dataset does not include the Race category “Hispanic”. UCI did not provide a reason for dropping this observation. However, and while this cannot be confirmed, it appears that the percentage overweight in the Race category “white” is roughly equal to the missing Hispanic value. Again referring to the Race “White”, Appendix A.1 shows that the sample population is lopsided in a 2:1 gender split favoring males. Normally, genders are relatively equal in number, typically favoring females by a small percent (Resident Population Estimates of the United States by Sex, Race, and Hispanic Origin, 2001). These two quirks aside, and given the overall sample size, we accepted this dataset as generally random, and as a representative sample of the population.
+
+First, we wanted to know if our sample was representative of the population, and Race is perhaps one of the easiest ways to measure this. Per the below, “White” is nearly the entire sample population of our dataset. However, these results are generally consistent with the 1990 Census (Appendix A.2). Dissimilar from the percentages in Appendix A.2, the UCI dataset does not include the Race category “Hispanic”. UCI did not provide a reason for dropping this observation. However, and while this cannot be confirmed, it appears that the percentage overweight in the Race category “white” is roughly equal to the missing Hispanic value. Again referring to the Race “White”, Appendix A.1 shows that the sample population is lopsided in a 2:1 gender split favoring males. Normally, genders are relatively equal in number, typically favoring females by a small percent <sub>_(Resident Population Estimates of the United States by Sex, Race, and Hispanic Origin, 2001)_</sub>. These two quirks aside, and given the overall sample size, we accepted this dataset as generally random, and as a representative sample of the population.
 
 
 Figure 2 and Appendix A.3
