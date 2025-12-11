@@ -100,40 +100,83 @@ As laid forth above, we sought to use our data to find if certain socioeconomic 
 
 First, we wanted to know if our sample was representative of the population, and Race is perhaps one of the easiest ways to measure this. Per the below, “White” is nearly the entire sample population of our dataset. However, these results are generally consistent with the 1990 Census (Appendix A.2). Dissimilar from the percentages in Appendix A.2, the UCI dataset does not include the Race category “Hispanic”. UCI did not provide a reason for dropping this observation. However, and while this cannot be confirmed, it appears that the percentage overweight in the Race category “white” is roughly equal to the missing Hispanic value. Again referring to the Race “White”, Appendix A.1 shows that the sample population is lopsided in a 2:1 gender split favoring males. Normally, genders are relatively equal in number, typically favoring females by a small percent <sub>_(Resident Population Estimates of the United States by Sex, Race, and Hispanic Origin, 2001)_</sub>. These two quirks aside, and given the overall sample size, we accepted this dataset as generally random, and as a representative sample of the population.
 
+<br>
 
-Figure 2 and Appendix A.3
+<p align="center"> 
+	<img width="652" height="528" src= https://www.dropbox.com/scl/fi/z5ixqcyww5tu8ockirod6/Data-Exploration-Figure-2.png?rlkey=ebmjjxbb6sukvmky5ihqhgft9&st=qb0woyin&raw=1>
+</p>
+
+_<p align="center">  Figure 2 and Appendix A.3 </p>_
+
+<br>
+<br>
 
 After finding no critical issues with our dataset, we looked at the percentage of individuals at each education level making over $50,000 per year. As expected, the results show a positive trend where the higher the education level, the higher chances of earning more money. Yet there is some noise in this graph. For instance, it does not make sense for a pre-school student to be making any money given labor and education laws, and competency levels, among other issues. 
 
+<br> 
+
+<p align="center"> 
+	<img width="689" height="241" src= https://www.dropbox.com/scl/fi/mxwckzsuugx1wlqcucb0u/Data-Exploration-Figure-3.png?rlkey=q865g8w3vuutctf46yktrow7y&st=gi4swj3k&raw=1>
+</p>
+
+_<p align="center"> Figure 3 and Appendix A.4 </p>_
+
+<br>
+<br>
+
+To account for this, we look at education levels across all age groups sampled. Seen below is a graph of total white population by education levels<sup>2</sup> , which intuitively shows that certain percentages of the population achieve a particular level of education, and stop there until they die. This, despite the noise at the bottom of the graph, can most clearly be seen by the variable “high school grad”, which is the first line under the thick, total population line. In other words, certain segments of the population may have not received a full education, yet have managed to do well for themselves in their adult years. As will be discussed later, this success may also be accounted for by other rationale. 
 
 
-Figure 3 and Appendix A.4
+<br> 
 
+<p align="center"> 
+	<img width="696" height="390" src= https://www.dropbox.com/scl/fi/ebrvtyljd8lm6a40cp2s6/Data-Exploration-Figure-4.png?rlkey=mqa8kdiy28rmhrhxwlx1fomcj&st=951a0tvu&raw=1>
+</p>
 
-	To account for this, we look at education levels across all age groups sampled. Seen below is a graph of total white population by education levels , which intuitively shows that certain percentages of the population achieve a particular level of education, and stop there until they die. This, despite the noise at the bottom of the graph, can most clearly be seen by the variable “high school grad”, which is the first line under the thick, total population line. In other words, certain segments of the population may have not received a full education, yet have managed to do well for themselves in their adult years. As will be discussed later, this success may also be accounted for by other rationale. 
+_<p align="center"> Figure 4 and Appendix A.5 </p>_
 
+<br>
+<br>
 
-Figure 4 and Appendix A.5
-If education could be indicative of wealth, does this apply equally across races and sex? The answer may not be so clear-cut when visualizing. Figures A.6 through A.9 in the appendix show the dispersion of higher education trends higher for the Race “Asian” while “White” and “Black” fall somewhere in the middle, and “Indian/Eskimo” lag behind. However, in the chart below, we see that the average of Black and White earning more than $50,000 per year are very far apart, and further see the gross inequality of the same between males and females.  
+If education could be indicative of wealth, does this apply equally across races and sex? The answer may not be so clear-cut when visualizing. Figures A.6 through A.9 in the appendix show the dispersion of higher education trends higher for the Race “Asian” while “White” and “Black” fall somewhere in the middle, and “Indian/Eskimo” lag behind. However, in the chart below, we see that the average of Black and White earning more than $50,000 per year are very far apart, and further see the gross inequality of the same between males and females<sup>3</sup>.  
 
+<br>
 
+<p align="center"> 
+	<img width="698" height="160" src=https://www.dropbox.com/scl/fi/3h9vqientf98tqgv8n6oo/Data-Exploration-Figure-5.png?rlkey=q0tkxcyamvc2ly7drv7vgbcvj&st=0tos19yz&raw=1>
+</p>
 
-Figure 5 and Appendix A.10
+_<p align="center">  Figure 5 and Appendix A.10 </p>_
+
+<br>
+<br>
 
 
 With the added complexity of gender inequality, we looked at available potential explanatory factors, such as average hours worked. Below, we see that, on average, women worked about 4 hours less than men per week. While this may have some role in the results shown in figure 5, it is clearly not enough to explain the chasm between genders. 
 
+<br>
 
-Figure 6 and Appendix A.11
+<p align="center"> 
+	<img width="689" height="192" src=https://www.dropbox.com/scl/fi/07hdb7fy3lsz1614luzik/Data-Exploration-Figure-6.png?rlkey=l7u47tq4goq7wedxks9up03kc&st=k3izmgck&raw=1>
+</p>
+
+_<p align="center"> Figure 6 and Appendix A.11 </p>_
+
+<br>
+<br>
+
+By now, visualization has done its job in demonstrating that inequality does exist, and is perhaps explained by more than one factor. While these charts and figures may be enough for advocacy groups to fight for change, and government to review particular policies, we turned our focus to predictive modeling for a deeper analysis and potentially multiple causal factors.
+
+<br>
+<br>
 
 
-	By now, visualization has done its job in demonstrating that inequality does exist, and is perhaps explained by more than one factor. While these charts and figures may be enough for advocacy groups to fight for change, and government to review particular policies, we turned our focus to predictive modeling for a deeper analysis and potentially multiple causal factors.
+<sup>2</sup> <sub>  Using the category of Race = “White” made visualization of this point easier, because of the large sample size. While other Race categories more or less follow the same trend, their graphs are much more jagged and noisy due to less data. </sub>
+<br>
+<br>
+<sup>3</sup> <sub>  The graph shows each category compared to itself. For example, the blue bar categorized as “Asian Female” is the percent of Asian women who make over $50,000 per year. Thus, each category is out of a total possibility of 100%. The black horizontal line is the average of the whole sample, most likely buoyed by White Males. </sub>
 
-
-
-
-
-Method 1 – GlmNet
+# Method 1 – GlmNet
 
 The first and least meaningful method we tested was Glmnet, based on its ability to work with a binary predictor variable. GLMNet differs from Glm in that the method fits a generalized linear model via penalized maximum likelihood, with either lasso or elastic-net regularization, while Glm does not. This model tries to explain as much variance in the data as possible while keeping the model coefficients small. In addition to being fast, it can deal with the problem of sparsity in the input matrix Xi. 
 
