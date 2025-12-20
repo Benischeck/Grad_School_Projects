@@ -184,9 +184,13 @@ The algorithm of GlmNet is as follows:
 
 
 
+<p align="center"> 
+	<img width="1200" height="156" src=https://www.dropbox.com/scl/fi/v5wbtfg2h8ac96tjyt82h/GLMNet-Algorithm.png?rlkey=2h25u2rbxxwuajczeht70j992&st=omeuxf03&raw=1>
+</p>
 
+<br>
 
-where variable wi is the weight, l is the negative log-likelihood contribution for observation Xi, and α controls the penalty. Regularization parameter lambda (λ) covers the entire range, and penalizes the size of estimated coefficients (Hastie & Qian, 2014).
+where variable wi is the weight, l is the negative log-likelihood contribution for observation Xi, and α controls the penalty. Regularization parameter lambda (λ) covers the entire range, and penalizes the size of estimated coefficients _(Hastie & Qian, 2014)_.
 
 
 Using the following code, GlmNet suggested using 2 types of models:
