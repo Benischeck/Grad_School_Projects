@@ -1,21 +1,28 @@
-![Coldlight_concept_frontpage](https://github.com/Benischeck/Portfolio/blob/main/Assets/Music_Streaming_Service_Playlist_Generator/Project_Coldlight_Cover.JPG)
+<p align="center"> 
+	<img width="709" height="443" src=https://www.dropbox.com/scl/fi/p5czwhbukj5l5iii6fdgj/Coldlight-Concept-Landing-Page.png?rlkey=f8wj17uc2ouoc94fr2qlkmeyq&st=qycnxuou&raw=1>
+</p>
 
-*“Music is a cross-cultural universal, a ubiquitous activity found in every known human culture. Individuals demonstrate manifestly different preferences in music, and yet relatively little is known about the underlying structure of those preferences.”* (Rentfrow et al. 2012).
+_<sub> 
+	<p align="center"> "Music is a cross-cultural universal, a ubiquitous activity found in every known human culture. Individuals demonstrate manifestly different preferences in music, and yet relatively little is known about the underlying structure of those preferences.” (Rentfrow et al. 2012). </p> 
+</sub>_
 
+<br>
+<br>
+<br>
+<br>
 
-A group effort by:  
-Tommy Baw  
-Jack Benischeck  
-Jordan McIntyre  
-Shachi Parikh  
-Chang Wang  
-Xiaomeng
+<p align="center"> 
+A group effort by Tommy Baw, Jack Benischeck, Jordan McIntyre, Shachi Parikh, Chang Wang, Xiaomeng
+
+<br>
+<br>
 
 # Foreword 
 
-*The name Coldlight is a fictitious music streaming company we came up with for the purposes of this project. It is not a registered or trademarked name, and any likeliness to a real company is purely coincidental. This is simply meant as a vehicle for discussion and analysis of the EMI music data found on the website Kaggle (full references and credit to the data are given in the bibliography). To that end, any references to partnerships with EMI Records are purely fictitious.*
+_The name Coldlight is a fictitious music streaming company we came up with for the purposes of this project. It is not a registered or trademarked name, and any likeliness to a real company is purely coincidental. This is simply meant as a vehicle for discussion and analysis of the EMI music data found on the website Kaggle (full references and credit to the data are given in the bibliography). To that end, any references to partnerships with EMI Records are purely fictitious._
 
-
+<br>
+<br>
 
 # Case Study
 
@@ -29,8 +36,10 @@ EMI did not provide artist names in their datasets. The artist information is de
 
 Once the clusters are obtained, the next step is to connect these clusters with different age groups and genders, to determine what they thought of each artist. Although more information than age and gender are provided in the data, we will exclude it. While other streaming services such as Pandora ask listeners for songs or artists they like as a starting point, we want to make the experience of arriving on our site and listening to music simpler and quicker. This practice is common among other streaming sites, such as Spotify.
 	
-To pair artists and users, we will examine the profiles (i.e., sentiment analysis) of the top five most liked artists of each age group for both male and female listeners. Using this information, we minimizes the probability that a new user's initial experience is negative while still ensuring a station that has some musical diversity and charactistics of each groups preferred music types. 
+To pair artists and users, we will examine the profiles (i.e., sentiment analysis) of the top five most liked artists of each age group for both male and female listeners. _**Using this information, we minimizes the probability that a new user's initial experience is negative while still ensuring a station that has some musical diversity and charactistics of each groups preferred music types.**_
 
+<br>
+<br>
 
 
 # Managerial Report
@@ -49,7 +58,8 @@ The model, then, is simply to minimize the sum score of sentiment categories lea
 
 The final result is a set of 14 playlists, broken down by male and female across 7 age groups, as shown below. They are made to consider how each age group and gender feel about music, based on the information they provide us while signing up. Through an easier sign-up, and immediate sampling of our service, we anticipate a higher percentage of site visitor conversions to users. Please refer to the deck in the appendix for updates to the UI.
 
-
+<br>
+<br>
 
 # Technical Report
 
@@ -65,18 +75,27 @@ In general, we included the following constraints in our model:
 
 A solution to one of the 14 possible outcomes is shown below. For the age 1 group and gender male, we include artists 16,18,19,20,34,35,37,38 in our playlist. 
 
-![SAS_Output](https://github.com/Benischeck/Portfolio/blob/main/Assets/Music_Streaming_Service_Playlist_Generator/SAS_Output_1.JPG)
+
+<p align="center"> 
+	<img width="625" height="254" src=https://www.dropbox.com/scl/fi/u040qwnksfipxe7cdnb0w/Outcomes-1.png?rlkey=4zt11u7amttaxvitc9iwyry6q&st=dhn6rzgn&raw=1>
+</p>
+
+<br>
+
 
 To reach this model, we first had to analyze the datasets given to us by EMI, in accordance with our research findings on how age and gender cause differences in musical taste and preference. We eliminated any values of missing gender, to create the binary decision of male or female. Likewise, we removed any missing ages. based upon a study carried out by Arielle Bonneville-Roussy from Cambridge’s Department of Psychology, we divided age into 7 groups:
 
-13-17 years  
-18-24 years  
-25-34 years  
-35-44 years  
-45-54 years  
-55-64 years  
-65 and Above  
+<p align="center"> 
+13-17 years  <br>
+18-24 years  <br>
+25-34 years  <br>
+35-44 years  <br>
+45-54 years  <br>
+55-64 years  <br>
+65 and Above  <br>
+</p>
 
+<br>
 
 Research shows that musical tastes shift as we age are in line with key "life challenges." Teenage years were defined by "intense" music, then early adulthood by "contemporary" and "mellow" as the search for close relationships increases, with "sophisticated" and "unpretentious" allowing us to project status and family values later in life. This study used data from more than a quarter of a million people over a 10 year period.
 
@@ -84,15 +103,15 @@ Research shows that musical tastes shift as we age are in line with key "life ch
 While reviewing the EMI data, it became apparent that many words were synonyms and that a cluster analysis could be performed to find naturally occurring patterns within the words. A spreadsheet was created giving a total count of words used to describe each artist. From there, a cluster analysis was performed to reduce the amount of similar words.  Several clustering methods were performed to confirm we not only had the best fitting dendogram, but also the words in each cluster were similar in nature. Ultimately the Ward Method was used to produce the clusters below (dendogram in appendix…)
 
 
-Timeless{Classic Timeless}  
-Talented{Distinctice Good Lyrics Talented Original Authentic}  
-Emotional{Dated Depressing Inspiring Serious}  
-Ambient{Calm Warm Beautiful Approchable Credible Stylish Passionate Toughtful}  
-Teenage{Energetic Upbeat Fun Current Youthful Boring Cool Confident None of These Edgy}  
-Pop/Top 40{Annoying Sexy Playful Trendsetter Outgoing Unoriginal Cheesy Superficial Fake Cheap Unattractive Noisy Arrogant Aggressive}  
-Least{Popular Free Rebellious Outspoken Genius Intriguing Exciting Colourful Uplifting Sociable Emotional Heartfelt Soulful Relaxed Laid Back Background Sophisticated}  
-Classic Rock{Iconic Nostalgic Dark Legendary Superstar Way out Progressive Pioneer Old Wordly Wholesome}  
-Lame{Unapproachable Over Relatable Intrusive Not Authentic Irrelevant Mainstream Uninspired}  
+Timeless _{Classic Timeless}_ <br>
+Talented _{Distinctice Good Lyrics Talented Original Authentic}_ <br>
+Emotional _{Dated Depressing Inspiring Serious}_ <br>
+Ambient _{Calm Warm Beautiful Approchable Credible Stylish Passionate Toughtful}_ <br>
+Teenage _{Energetic Upbeat Fun Current Youthful Boring Cool Confident None of These Edgy}_ <br>
+Pop/Top 40 _{Annoying Sexy Playful Trendsetter Outgoing Unoriginal Cheesy Superficial Fake Cheap Unattractive Noisy Arrogant Aggressive}_ <br>
+Least _{Popular Free Rebellious Outspoken Genius Intriguing Exciting Colourful Uplifting Sociable Emotional Heartfelt Soulful Relaxed Laid Back Background Sophisticated}_ <br>
+Classic Rock _{Iconic Nostalgic Dark Legendary Superstar Way out Progressive Pioneer Old Wordly Wholesome}_ <br>
+Lame _{Unapproachable Over Relatable Intrusive Not Authentic Irrelevant Mainstream Uninspired}_ <br>
 Catchy
 
 
@@ -100,7 +119,9 @@ Using this sentiment analysis, we were able to name each of the 10 clusters prod
 
 Now that we have 10 meaningful clusters, we can find the percentage of each cluster used to describe the artists. From this information we can now work towards our preference algorithm. Since the algorithm considers age and gender, we split the data of cluster breakdown per artist to both male and female users. We then take the likability score that the users filled out to take the five highest scores to see what words users (male or female) are using to describe the favorite artists of each age group. Take for example figure 3.2 below that only shows a portion of our data for clusters “Timeless” and “Talented”. We  will look at the data highlighted in orange where AG1M represents all male users between the ages of 13 and 17 that gave a likability score for artists and they gave artists 18, 28, 29, 11, and 40 the highest average rating. We calculate 0.0157722 from the average weight that all male users used words in the timeless cluster for those 5 artists. If you divide this by the overall weight that male users put into Timeless (0.0560719), we get the table listed as figure 3.3. For AG1M, they place only 28.13% importance towards artists that can be classified as producing timeless music. On the other hand, they enjoy music listed under the “Teenage” category 146.79% of the time compared to other users. Figure 3.3 has been color coordinated for ease of use where green represents the category of music that a certain age group puts an emphasis and red for their least enjoyed type of artist.
 
+<br>
 
+_figure 3.2_
 | | | Artist1 | Artist2 | Artist3 | Artist4 | Artist5 | Timeless | Talented |
 | -- | -- | ----- | ------| ----- | ----- | ----- | ----- | -----| 
 | 1 | AG1M | 18 | 28 | 29 | 11 | 40 | 0.0157722 | 0.1888658 |
@@ -120,14 +141,20 @@ Now that we have 10 meaningful clusters, we can find the percentage of each clus
 | 15|AGNAM | 1  | 30 | 26 | 29 | 2  | 0.0506945 | 0.1977143 |
 | 16|AGNAF | 0  | 30 | 28 | 27 | 29 | 0.0292231 | 0.191369  |
 | 17|AGNANA| 38 | 23 | 40 | 6  | 48 | 0.0255178 | 0.1449652 |
+| | | | | | | | | | 
 |Average Males|||||||0.0560719|0.22029|
 |Average Females|||||||0.0408702|0.1966144|
 |Total Average|||||||0.0471208|0.2047177|
 |Average over all artists|||||||0.0353614|0.1602547|
 
-*figure 3.2*
+
+<br>
+<br>
+
+_figure 3.3_
+
+<p align="center"> 
+	<img width="737" height="415" src=https://www.dropbox.com/scl/fi/bsle6peo5fct6v6hah1gv/Outcomes-2.png?rlkey=av2vxuugrzn4k71081lwskfln&st=rf79d5vl&raw=1>
+</p>
 
 
-![figure_3.3](https://github.com/Benischeck/Portfolio/blob/main/Assets/Music_Streaming_Service_Playlist_Generator/Figure_3.3.JPG)
-
-*figure 3.3*
