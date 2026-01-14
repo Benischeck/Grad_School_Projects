@@ -517,7 +517,7 @@ Cover Image of Uncle Sam and the Census book was pulled from http://backstoryrad
 
 <br>
 
-## Appendix
+# Appendix
 
 
 ### Figure A.1
