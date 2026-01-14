@@ -43,7 +43,6 @@ _<sub>
 - Conclusion and Remarks
 - Bibliography and References
 - Appendix
-- Individual Contribution and Addressing Comments
 
 <br>
 
@@ -176,6 +175,8 @@ By now, visualization has done its job in demonstrating that inequality does exi
 <br>
 <sup>3</sup> <sub>  The graph shows each category compared to itself. For example, the blue bar categorized as “Asian Female” is the percent of Asian women who make over $50,000 per year. Thus, each category is out of a total possibility of 100%. The black horizontal line is the average of the whole sample, most likely buoyed by White Males. </sub>
 
+<br> 
+
 # Method 1 – GlmNet
 
 The first and least meaningful method we tested was Glmnet, based on its ability to work with a binary predictor variable. GLMNet differs from Glm in that the method fits a generalized linear model via penalized maximum likelihood, with either lasso or elastic-net regularization, while Glm does not. This model tries to explain as much variance in the data as possible while keeping the model coefficients small. In addition to being fast, it can deal with the problem of sparsity in the input matrix Xi. 
@@ -195,95 +196,108 @@ where variable wi is the weight, l is the negative log-likelihood contribution f
 
 Using the following code, GlmNet suggested using 2 types of models:
 
+<p align="center"> 
+	<img width="330" height="48" src=https://www.dropbox.com/scl/fi/zp2n501sjqxtl99n91el8/GLMNet-Recs.png?rlkey=at8r17hj4hrtbyj1y3v0isens&st=vn7qjkvf&raw=1>
+</p>
 
+<br>
 
 
 
 To test the predictive power of the model, we choose to split the data as 75% to train and 25% to test. Further, to show the accuracy of the model, we chose to use the Receiver Operating Characteristic (ROC) curve, further known as Area Under the Curve (AUC), as follows:
 
 
+```
+set.seed(3456)
+splitIndex <- createDataPartition(census[,outcomeName],
+                                  p = .75, list = FALSE, times = 1)
+
+trainDF <- census[ splitIndex,]
+testDF  <- census[-splitIndex,]
+
+objControl <- trainControl(method='cv', number=3, returnResamp='none')
+objModel   <- train(trainDF[,predictorsNames], trainDF[,outcomeName],
+                    method='glmnet', metric = 'RMSE", trControl=objControl)
+
+predictions <- predict(object=objModel, testDF[,predictorsNames])
+
+auc <- roc(testDF[,outcomeName], predictions)
+print(auc$auc)
+
+#Area under the curve: 0.8937
+
+```
+
+<br>
+
+<p align="center"> 
+	<img width="276" height="271" src=https://www.dropbox.com/scl/fi/kdwtpwnhbbb88w5g2kkd1/GLMNet-AUC.png?rlkey=xz48irtimqcavjntw5jvwv8ws&st=q84gojxz&raw=1>
+</p>
+
+_<p align="center"> Area under the curve: 0.8937 </p>_
+
+<br>
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-There is a lot of information to be derived from the AUC test, of which the most relevant to us is that the area under the curve is a measure of accuracy.  An area of 1 represents a perfect test, and an area of .5 represents a worthless test. (Kutner, Nachtsheim, & Neter, 2004) For GlmNet, the AUC value (accuracy) is 89.75%. 
+There is a lot of information to be derived from the AUC test, of which the most relevant to us is that the area under the curve is a measure of accuracy.  An area of 1 represents a perfect test, and an area of .5 represents a worthless test. _(Kutner, Nachtsheim, & Neter, 2004)_ For GlmNet, the AUC value (accuracy) is 89.75%. 
 
 To help us understand which variables were important in the model derived by GlmNet, we used the function “varlmp” (abbreviation for Variance Importance) in the caret package. The resulting bar chart may have values on both the positive and negative side, which translates to a positive or negative impact on our model:
 
+<br>
+<p align="center"> 
+	<img width="632" height="412" src=https://www.dropbox.com/scl/fi/pozs3rzd87gp392j9exq7/GLMNet-varimp-output.png?rlkey=iob58sj4k5w28g8zzvpmejhx5&st=3gggh6qi&raw=1>
+</p>
 
-
-
-
-
-
-
-
-
-
-
+<br>
 
 
 Naturally, this output can be messy when dealing with so many variables. To make a clearer output, the top 22 variables were retained:
 
-
-
-
-
-
-
-
+<br>
+<p align="center"> 
+	<img width="774" height="275" src=https://www.dropbox.com/scl/fi/eedn2zdbhjuaajig5dj8a/GLMNet-varimp-output-top-22.png?rlkey=mwf1r3jie429jihk2by35yr2l&st=9dp4pbxx&raw=1>
+</p>
+<br>
 
 
 Per the cleaner output, the top influential variable is “Relationship_Wife”.  There may be a few explanations as to why this variable stood out, not limited to a good education, or even reporting dual income, per the below Census snapshot. The second most important variable is “education_Doctorate”. This echoes the result from the data exploration; the better the education, the more likely he/she will have a high paying job. 
 
+<br>
+<p align="center"> 
+	<img width="358" height="328" src=https://www.dropbox.com/scl/fi/4ot0sod88jn6skum0026g/sample-Census-form-Figure-7.png?rlkey=q74fzroag5ogr2dso0ep94klu&st=wmwvcc64&raw=1>
+</p>
+
+_<p align="center"> Figure 7 – sample Census Form <br> (U.S. Department of Commerce: Bureau of the Census, 2000)</p>_
 
 
-
-Figure 7 – sample Census Form
-
-
+<br>
+<br>
 
 
+# Method 2 - Logistic Regression
 
-Method 2 - Logistic Regression
+Quite often, a research question will contain in the dataset a Y-variable that is binary, or yes/no. Historically, when such a question was being tested, methods such as Linear discriminant function analysis(LDFA) and ordinary least squares (OLS) would be used. However, both methods have strict assumptions surrounding the data, and often these assumptions are violated. For example, OLS assumes linearity and continuity in the dataset. Because of our dummy variables, this would violate the continuity assumption  _(Peng, Lee, & Ingersoll, 2002)_.
 
-Quite often, a research question will contain in the dataset a Y-variable that is binary, or yes/no. Historically, when such a question was being tested, methods such as Linear discriminant function analysis(LDFA) and ordinary least squares (OLS) would be used. However, both methods have strict assumptions surrounding the data, and often these assumptions are violated. For example, OLS assumes linearity and continuity in the dataset. Because of our dummy variables, this would violate the continuity assumption  (Peng, Lee, & Ingersoll, 2002).
+To work around these strict assumptions, we turned to the logistic regression model. Logistic models are more apt to work with data which contains both continuous and categorical data, where the decision variable is dichotomous. _(UCLA, 2016)_.
 
-	 To work around these strict assumptions, we turned to the logistic regression model. Logistic models are more apt to work with data which contains both continuous and categorical data, where the decision variable is dichotomous. (UCLA, 2016).
-
-LogitY=naturallog odds =ln (1-) = +βX
+<br>
+<p align="center"> 
+	<img width="528" height="31" src=https://www.dropbox.com/scl/fi/vekuol3x13o8sbngixir0/Logistic-Regression.png?rlkey=bui6pztpongxyyv217ffql8e2&st=g3gr8qtx&raw=1>
+</p>
+<br>
 
 
 Using this regression method in SPSS yielded the following results:
 
+<br>
+<p align="center"> 
+	<img width="545" height="346" src=https://www.dropbox.com/scl/fi/e05qy10skp78w6dkk8mlt/SPSS-output-1.png?rlkey=ew2velak2j0jy8grcrteazlaa&st=ui2a5vgr&raw=1>
+</p>
 
-
-
+<p align="center"> 
+	<img width="526" height="452" src=https://www.dropbox.com/scl/fi/oiealvnmcbnlhbb4qbhl6/SPSS-output-2.png?rlkey=pe3187hv6y6dbnp0ogiehq4em&st=a3241g0w&raw=1>
+</p>
+<br>
 
 
 The first model of the output is a null model, which is to say SPSS fit a model with no predictors. The constant in the table labeled “Variables in the Equation” gives the unconditional log odds of variable admission to the model (i.e., admit=1).
@@ -293,199 +307,127 @@ This unfitted model is accompanied by a table labeled “Variables not in the Eq
 
 The second test (output shown above) gave the overall test and score for a model that includes the predictor variables. The chi-square value of 22879.398, with a p-value of less than 0.0005, suggested that the model as a whole fit significantly better than the null model. 
 
+<br>
+<p align="center"> 
+	<img width="599" height="525" src=https://www.dropbox.com/scl/fi/c8c10pbd9gfl8a9mdoqhw/SPSS-model-output.png?rlkey=tumvo0ac5snj4wjqzegfjimz4&st=ha6gmnu2&raw=1>
+</p>
+<br>
+
+
 
 
 Additionally, this output included a classification table, which showed the overall usefulness of the model. As seen above, it accurately predicted/classified about 85% of the observations. In the table labeled “Variables in the Equation”, further diagnostics were given, such as the coefficients, their standard errors, the Wald test statistic with associated degrees of freedom and p-values, and the exponentiated coefficient (also known as an odds ratio). 
 
 Based on the p-values, there were 36 variables shown to be significant, some of which being age, education, native country relationship status, and occupation. This was a large model, so to reduce the dimensionality, we identified the most significant variables by looking at their odds ratio. Based on odds ratio, we found 18 significant variables: 
 
+<br>
 
-Work Class
-Education
-Marital Status
-Occupation
-Native Country
-Federal Gov't
-Doctorate
-Married Armed Forces Spouse
-Executive / Managerial
-Columbia
-Never Worked
-Masters
-Married Civilian Spouse
- 
-Holand / Netherlands
-Private
-Preschool
- 
- 
-Laos
-Self Employed INC
-Professional School
- 
- 
-Trinidad & Tobago
- 
- 
- 
- 
-Vietnam
+| Work Class | Education | Marital Status | Occupation | Native Country | 
+|------------|-----------|----------------|------------|----------------|
+| Federal Gov't | Doctorate | Married Armed Forces Spouse | Executive / Managerial | Columbia |
+| Never Worked | Masters | Married Civilian Spouse | | Holand / Netherlands |
+| Private | Preschool | | | Laos |
+| Self Employed INC | Professional School | | | Trinidad & Tobago |
+| | | | | Vietnam |
 
-
-
+<br>
 
 The final output below of interest was the Receiver Operating Characteristic curve. This model produces an ROC Curve accuracy rate of 90.80%, which means that the Logistic Regression model performed slightly better than GlmNet.
 
+<br>
+<p align="center"> 
+	<img width="405" height="366" src=https://www.dropbox.com/scl/fi/oiq31kgmgv4btz3szf0ea/Logistic-Regression-ROC.png?rlkey=2epv9whrlh247pqtuy5p3uwme&st=p4ebd1o8&raw=1>
+</p>
+<br>
 
 
+# Method 3 – Gradient Boosting Machine
 
+The last method we used was the Gradient Boosting Machine Model (GBM). With the versatility in the uses of GBM, a decision was made to use this as a classification method. The way this method works is similar to support vector machines, where it attempts to build a model by splitting the data through a hyperplane. The difference is that GBM is a type of ensemble method. That means that it is an additive model which runs several iterations to build a learning algorithm in a stage-wise manner. The end result is a model that finds a linear association between the past iterations. _(Friedman, 2001)_ The figure below shows a step by step example of this process:
 
+<br>
+<p align="center"> 
+	<img width="662" height="416" src=https://www.dropbox.com/scl/fi/vdl3q5j92ozwarz7v4dgc/GBM-model-procedure-Figure-8.png?rlkey=zeh0okceel6iof1idedcuodna&st=xmdfz29c&raw=1>
+</p>
 
+_<p align="center"> Figure 8 – the GBM Model procedure (Srivastava, 2015) </p>_
 
+<br>
 
-
-
-Method 3 – Gradient Boosting Machine
-
-The last method we used was the Gradient Boosting Machine Model (GBM). With the versatility in the uses of GBM, a decision was made to use this as a classification method. The way this method works is similar to support vector machines, where it attempts to build a model by splitting the data through a hyperplane. The difference is that GBM is a type of ensemble method. That means that it is an additive model which runs several iterations to build a learning algorithm in a stage-wise manner. The end result is a model that finds a linear association between the past iterations. (Friedman, 2001) The figure below shows a step by step example of this process:
-
-
-
-Figure 8 – the GBM Model procedure
-
-There are many benefits to using this type of machine learning algorithm. The first is that it prevents over fitting by choosing the optimal number of iterations to run through monitoring of prediction error. Gradient boosting is also typically used with decision trees, so there are strategies to overcome over fitting by changing a combination of parameters like the learning rate (shrinkage), depth of tree, and number of trees. With correct tuning parameters, GBM generally provides better results than other ensemble methods such as random forests (Friedman, 2001).
+There are many benefits to using this type of machine learning algorithm. The first is that it prevents over fitting by choosing the optimal number of iterations to run through monitoring of prediction error. Gradient boosting is also typically used with decision trees, so there are strategies to overcome over fitting by changing a combination of parameters like the learning rate (shrinkage), depth of tree, and number of trees. With correct tuning parameters, GBM generally provides better results than other ensemble methods such as random forests _(Friedman, 2001)_.
 
 The Gradient Boosted Method was run in R using the gbm and caret packages. The first task was in creating a new variable to force GBM into using the classification mode instead of the original binary dependent variable:
 
-#use gbm by first creating a new classification variable
+```
+# Use gbm by first creating a new classification variable
 census$salary2 <- ifelse(salary==1,'yes','no')
 census$salary2 <- as.factor(census$salary2)
 outcomeName <- 'salary2'
+```
+
 From there, the data was split into a test and train set to evaluate the model. Setting a seed guaranteed that we would get the same split in subsequent runs:
 
-#splitting into train and test data
+```
+# Splitting into train and test data
 set.seed(1234)
 splitIndex <- createDataPartition(census[,outcomeName], p = .75, list = FALSE, times = 1)
 trainDF <- census[ splitIndex,]
 testDF  <- census[-splitIndex,]
+```
 
 Using the caret package, we were able to get the most out of our model by controlling the resampling of the data through cross validation. In this case, we decided to cross-validate the data 10 times, therefore training it 10 times on different portions of the data to make sure we settled on the best tuning parameters. 
 
 Next we created the model and taught it how to recognize whether or not someone made above $50,000 per year: 
 
+```
 objControl <- trainControl(method='cv', number=10, returnResamp='none', summaryFunction = twoClassSummary, classProbs = TRUE)
 objModel <- train(trainDF[,predictorsNames], trainDF[,outcomeName], 
                   method='gbm', 
                   trControl=objControl,  
                   metric = "ROC",
                   preProc = c("center", "scale"))
+```
 
 Below is a sample output of the learning process as the model improved through each iteration. The “TrainDeviance” measures the error, which the model tries to minimize it after each new iteration:
 
-Iter
-TrainDeviance
-ValidDeviance
-StepSize
-Improve
-1
-1.0638
-nan
-0.1
-0.0185
-2
-1.0339
-nan
-0.1
-0.0149
-3
-1.0099
-nan
-0.1
-0.0117
-4
-0.9869
-nan
-0.1
-0.0118
-5
-0.9707
-nan
-0.1
-0.008
-6
-0.9516
-nan
-0.1
-0.0095
-7
-0.9357
-nan
-0.1
-0.0078
-8
-0.9242
-nan
-0.1
-0.006
-9
-0.915
-nan
-0.1
-0.0046
-10
-0.9024
-nan
-0.1
-0.0063
-20
-0.8335
-nan
-0.1
-0.0025
-40
-0.758
-nan
-0.1
-0.0009
-60
-0.717
-nan
-0.1
-0.001
-80
-0.6925
-nan
-0.1
-0.0004
-100
-0.6751
-nan
-0.1
-0.0004
-120
-0.6634
-nan
-0.1
-0.0003
-140
-0.6544
-nan
-0.1
-0.0001
-150
-0.6508
-nan
-0.1
-0.0001
+| Iter | TrainDeviance | ValidDeviance | StepSize | Improve |
+|------|---------------|---------------|----------|---------|
+|1 | 1.0638 | nan | 0.1 | 0.0185 |
+|2 | 1.0339 | nan | 0.1 | 0.0149 |
+|3 | 1.0099 | nan | 0.1 | 0.0117 |
+|4 | 0.9869 | nan | 0.1 | 0.0118 |
+|5 | 0.9707 | nan | 0.1 | 0.008 |
+|6 | 0.9516 | nan | 0.1 | 0.0095 |
+|7 | 0.9357 | nan | 0.1 | 0.0078 |
+|8 | 0.9242 | nan | 0.1 | 0.006 |
+|9 | 0.915  | nan | 0.1 | 0.0046 |
+|10| 0.9024 | nan | 0.1 | 0.0063 |
+|20| 0.8335 | nan | 0.1 | 0.0025 |
+|40| 0.758  | nan | 0.1 | 0.0009 |
+|60| 0.717  | nan | 0.1 | 0.001 |
+|80| 0.6925 | nan | 0.1 | 0.0004 |
+|100|0.6751 | nan | 0.1 | 0.0004|
+|120|0.6634 | nan | 0.1 | 0.0003|
+|140|0.6544 | nan | 0.1 | 0.0001|
+|150|0.6508 | nan | 0.1 | 0.0001|
+
+<br>
 
 By running a summary of the model, we were given the relative importance of each independent variable, and were able to place weighted importance. It also minimized more than half of our original variables to zero, where we could conclude that they did not have an impact on the boosted method. The first figure below shows the most important factors, which are marital status, capital gain, and capital loss. The second figure indicates that more than half of the variables are classified as unimportant. 
 
 
+<br>
+<p align="center"> 
+	<img width="487" height="503" src=https://www.dropbox.com/scl/fi/poycv301kvtvk9y7yvfv2/GBM-Importance.png?rlkey=21d8f9tcl0bvpxwykt1rdwl04&st=43929nzo&raw=1>
+</p>
+<br>
 
 
 
 With the model completed, we were interested in how well it performed. The model was able to classify salary with 86.5% accuracy, by observing the type 1 and type 2 errors highlighted in the confusion matrix below:
 
+
+```
 > #find out accuracy of model
 > predictions <- predict(object=objModel, testDF[,predictorsNames], type='raw')
 > print(postResample(pred=predictions, obs=as.factor(testDF[,outcomeName])))
@@ -499,63 +441,41 @@ Cross-Validated (10 fold) Confusion Matrix
 
 (entries are percentages of table totals)
  
-          Reference
+            Reference
 Prediction   no  yes
-       no       72.4  9.9
-       yes      3.7 14.0
+       no   72.4  9.9
+       yes   3.7 14.0
+```
+
+
 
 Calculating the ROC, we observed that this method performed the best out of the three models used. The graph of the ROC curve also compares GBM in black to the GLMnet method in red. Clearly, GBM has outperformed since it has a larger area:
 
+```
 > auc <- roc(ifelse(testDF[,outcomeName]=="yes",1,0), predictions[[2]])
 > print(auc$auc)
 Area under the curve: 0.9193
+```
 
 
+<br>
+<p align="center"> 
+	<img width="573" height="401" src=https://www.dropbox.com/scl/fi/cl68eyhj2rhjvmdtcv90d/GLM-ROC.png?rlkey=jxdpkpz4pgy9c23kt0af1oh7s&st=4voczviz&raw=1>
+</p>
+<br>
 
 
+# Conclusions and Remarks
 
+Of the three types of models we ran, they all performed very well. Despite a close performance by each model, the Gradient Boosting Machine performed the best. Depending on what is at stake, every additional percentage and even hundredth of a percentage of accuracy can make a big difference. 
 
+| The Model Used | Area Under the Curve (AUC) Score |
+|----------------|:---------------------------------:|
+| GlmNet | .8975 | 
+| Logistic Regression | .9080 | 
+| Gradient Boosting Machine (GBM) model | .9193 |
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Conclusions and Remarks
-
-	Of the three types of models we ran, they all performed very well. Despite a close performance by each model, the Gradient Boosting Machine performed the best. Depending on what is at stake, every additional percentage and even hundredth of a percentage of accuracy can make a big difference. 
-
-The Model Used
-Area Under the Curve (AUC) Score
-GlmNet
-.8975
-Logistic Regression
-.9080
-Gradient Boosting Machine (GBM) model
-.9193
-
-
-
-	
-
-
-
-
-
-
-
-
-
-
+<br>
 
 While there were few similarities between the variables deemed important by each model, the ones which were similar dealt with education levels and marital status. Education is rather intuitive to interpret, as one would expect a higher level of education to be correlated with more specialized fields, which are typically highly paid. 
 
@@ -564,123 +484,127 @@ The marriage level is more difficult to interpret. As seen from the snippet of t
 The dataset was not without its shortfalls. Not including the “Hispanic” category of race deviated from normal Census reporting, and would have been an interesting feature to measure. Further, the sample size was perhaps too low to more smoothly and accurately look at categories of Race outside of “White”.  Perhaps more interesting is what we didn’t observe. For instance, none of the three models placed a high importance on race, nor on gender, despite visually significant differences between them. This is possibly due to having a dichotomous dependent variable, the effects of marriage and joint income, a combination of the two, or perhaps even other variations which we do not have the expertise to discern.
 
 As a final note, future analysis of the same points (time-series) may be of additional use in terms of tracking trends in the areas we found to matter, such as levels of education achieved by the general population, and the health of the “institution of marriage”. Further, use of this particular model on a future Census dataset can show whether or not there has been a shift in how wealth can be predicted, and if certain social issues still exist.
-Bibliography and References
 
-Bibliography
-Friedman, J. H. (2001). 1999 Reitz Lecture Greedy Function Approximation: A Gradient Boosting Machine. The Annals of Statistics, Vol. 29, No.5, 1189-1232.
-Hastie, T., & Qian, J. (2014, June 26). Glmnet Vignette. Retrieved from Stanford: https://web.stanford.edu/~hastie/glmnet/glmnet_alpha.html
-Kutner, M., Nachtsheim, C., & Neter, J. (2004). Applied Linear Regression Models - 4th Edition. McGraw-Hill Education.
+<br>
+
+# Bibliography and References
+
+## Bibliography
+Friedman, J. H. (2001). 1999 Reitz Lecture Greedy Function Approximation: A Gradient Boosting Machine. _The Annals of Statistics_, Vol. 29, No.5, 1189-1232.
+<br>
+Hastie, T., & Qian, J. (2014, June 26). _Glmnet Vignette_. Retrieved from Stanford: https://web.stanford.edu/~hastie/glmnet/glmnet_alpha.html
+<br>
+Kutner, M., Nachtsheim, C., & Neter, J. (2004). _Applied Linear Regression Models - 4th Edition_. McGraw-Hill Education.
 Mahoney, C. R. (1998). Creating a Culture of Life.
-Peng, C.-Y. J., Lee, K. L., & Ingersoll, M. G. (2002). An Introduction to Logistic Regression. Retrieved from Indiana University-Bloomington: http://www-psychology.concordia.ca/fac/kline/734/peng.pdf
-Resident Population Estimates of the United States by Sex, Race, and Hispanic Origin. (2001, January 2). Retrieved from U.S. Census Bureau: https://www.census.gov/population/estimates/nation/intfile3-1.txt
-Srivastava, T. (2015, September 11). Learn Gradient Boosting Algorithm for better predictions (with codes in R). Retrieved from Analytics Vidhya: http://www.analyticsvidhya.com/blog/2015/09/complete-guide-boosting-methods/
-U.S. Department of Commerce: Bureau of the Census. (2000, April 1). United States Census 2000. Retrieved from Census.gov: https://www.census.gov/dmd/www/pdf/d-61b.pdf
-UCLA. (2016). SPSS Data Analysis Examples Logit Regression. Retrieved from Institute for Digital Research and Education: http://www.ats.ucla.edu/stat/spss/dae/logit.htm
-University of California Irvine. (1994). Census Income Data Set. Retrieved from UCI Machine Learning Repository: http://archive.ics.uci.edu/ml/datasets/Census+Income
+<br>
+Peng, C.-Y. J., Lee, K. L., & Ingersoll, M. G. (2002). _An Introduction to Logistic Regression_. Retrieved from Indiana University-Bloomington: http://www-psychology.concordia.ca/fac/kline/734/peng.pdf
+<br>
+_Resident Population Estimates of the United States by Sex, Race, and Hispanic Origin._ (2001, January 2). Retrieved from U.S. Census Bureau: https://www.census.gov/population/estimates/nation/intfile3-1.txt
+<br>
+Srivastava, T. (2015, September 11). _Learn Gradient Boosting Algorithm for better predictions (with codes in R)_. Retrieved from Analytics Vidhya: http://www.analyticsvidhya.com/blog/2015/09/complete-guide-boosting-methods/
+<br>
+U.S. Department of Commerce: Bureau of the Census. (2000, April 1). _United States Census 2000_. Retrieved from Census.gov: https://www.census.gov/dmd/www/pdf/d-61b.pdf
+<br>
+UCLA. (2016). _SPSS Data Analysis Examples Logit Regression_. Retrieved from Institute for Digital Research and Education: http://www.ats.ucla.edu/stat/spss/dae/logit.htm
+<br>
+University of California Irvine. (1994). _Census Income Data Set_. Retrieved from UCI Machine Learning Repository: http://archive.ics.uci.edu/ml/datasets/Census+Income
 
+<br>
 
-Reference
+## Reference
 
 Cover Image of Uncle Sam and the Census book was pulled from http://backstoryradio.org/files/2010/10/answersready.jpg. The full image can be found in the government archives at http://loc.gov/pictures/resource/cph.3g08370/.
 
+<br>
 
+## Appendix
 
-Appendix
 
+### Figure A.1
 
-Figure A.1
+<p align="center"> 
+	<img width="703" height="567" src=https://www.dropbox.com/scl/fi/6whg0zwlna2rcpw63l3la/Appendix-A1.png?rlkey=eolsg4aa6s5qr838i9ukyrx6s&st=1gqzjr9y&raw=1>
+</p>
+<br>
 
 
+### Figure A.2
 
+<p align="center"> 
+	<img width="587" height="305" src=https://www.dropbox.com/scl/fi/2u192shau89talohgedt1/Appendix-A2.png?rlkey=u50b0j2kkh9upxctbvkyg0ddh&st=i9siiroi&raw=1>
+</p>
+<br>
 
 
+### Figure A.3
 
+<p align="center"> 
+	<img width="658" height="512" src=https://www.dropbox.com/scl/fi/gw00zjeunuxt9sp6lgy5s/Appendix-A3.png?rlkey=dwry6q697jl9ftftt6fyqqgw1&st=z2chx8cr&raw=1>
+</p>
+<br>
 
 
+### Figure A.4
 
+<p align="center"> 
+	<img width="694" height="248" src=https://www.dropbox.com/scl/fi/jhairot1w4o8svvfq3xg7/Appendix-A4.png?rlkey=ch77iqb5lqn97hd4h4wjjl9z0&st=zfcafv4a&raw=1>
+</p>
+<br>
 
 
+### Figure A.5
 
+<p align="center"> 
+	<img width="699" height="393" src=https://www.dropbox.com/scl/fi/6nvmx6mf99owjsrgsdij0/Appendix-A5.png?rlkey=4qrixh5qswfxi3ulvavimbppz&st=vgqbf377&raw=1>
+</p>
+<br>
 
 
+### Figure A.6
 
+<p align="center"> 
+	<img width="508" height="498" src=https://www.dropbox.com/scl/fi/aadmpiwv3d8mqgonyexi0/Appendix-A6.png?rlkey=mrbcnwutofbyqy1pg8l6wncxy&st=cpgamk3a&raw=1>
+</p>
+<br>
 
 
+### Figure A.7
 
+<p align="center"> 
+	<img width="485" height="407" src=https://www.dropbox.com/scl/fi/dosxheqlilq20vbfadxul/Appendix-A7.png?rlkey=gql8vijqx2nsk3jaon827j308&st=bzztg39t&raw=1>
+</p>
+<br>
 
-Figure A.2
 
+### Figure A.8
 
+<p align="center"> 
+	<img width="561" height="506" src=https://www.dropbox.com/scl/fi/hp2m41fhodwwvct7dyt30/Appendix-A8.png?rlkey=izay9bkz4znlheqayv2uzbucy&st=vuuwi0we&raw=1>
+</p>
+<br>
 
 
-Figure A.3
+### Figure A.9
 
+<p align="center"> 
+	<img width="572" height="454" src=https://www.dropbox.com/scl/fi/azuuyscia4enzr09n4shi/Appendix-A9.png?rlkey=7botngsi0v1d9rkww5qv8wfad&st=a8bjj6rp&raw=1>
+</p>
+<br>
 
 
+### Figure A.10
 
+<p align="center"> 
+	<img width="206" height="868" src=https://www.dropbox.com/scl/fi/ysnkxo0pe4mjvvlazjgj2/Appendix-A10.png?rlkey=wdq8geuxsh613v01emaimobkx&st=2426b03i&raw=1>
+</p>
+<br>
 
 
-Figure A.4
+### Figure A.11
 
-
-
-
-
-
-
-
-Figure A.5
-
-
-
-
-
-
-
-
-
-
-Figure A.6
-
-
-
-Figure A.7
-
-
-
-
-
-Figure A.8
-
-
-
-Figure A.9
-
-
-
-
-
-Figure A.10
-
-
-
-Appendix A.11
-
-Individual Contributions
-
-John Benischeck – Data visualization section and graphs. Compiled and edited paper.
-
-Tommy Baw – GBM Model research, implementation, and writeup.
-
-Shachi Parikh – Logistic Regression research, implementation, and writeup.
-
-Xiaoqin Helen Yi – GlmNet research, implementation, and writeup.
-
-Xiaomeng Blair Chen – data gathering and cleaning, introduction, and writeup.
-
-
-Addressing Comments
-
-We received no questions about our project. 
+<p align="center"> 
+	<img width="247" height="857" src=https://www.dropbox.com/scl/fi/2k8kz7mvm6jfy4yj8nrjd/Appendix-A11.png?rlkey=0jpgpl8z3ihkb8wjckeb3l256&st=g94pvwd5&raw=1>
+</p>
+<br>
 
 
