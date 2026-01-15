@@ -60,15 +60,17 @@ The aim of this paper is to explore the California Office of Statewide Health Pl
 For this project, we have used the OSHPD online repository to collect the raw datasets for analysis. We chose to use the 2011-2012 dataset for our training data, and the 2012-2013 data for our test set. Each dataset contained two tabs: one named “Financial and Utilization Data” and a second called “Cost Allocation Data”. Our focus was solely on the variables in the former tab. Due to the size of the dataset, we selected 20 variables we thought might be good predictors of accounts receivable:
 
 
-<br>   
-<ul align="center"> 
-    <strong> <h3> Table 1: Chosen Variables </h3> </strong>
-    
-</ul>
+<br>  
+
+<div align="center"> 
+	<strong> 
+		<h3> Table 1: Chosen Variables </h3> 
+	</strong> 
+</div>
 
 
 
-<p align="center"> 
+<div align="center"> 
 
 | Variable | Variable Name in Datasets | Type |
 |:--------:|---------------------------|------|
@@ -94,7 +96,7 @@ For this project, we have used the OSHPD online repository to collect the raw da
 | X20 | Loss Reserves | Continuous |
 | Y1  | Accounts Receivable | Continuous |
 
-</p>
+</div>
 
 <br>
 <br>
@@ -142,10 +144,10 @@ With the variables relevant to the study chosen, calculated, and cleaned, histog
 
 
 <br>   
-<ul align="center"> 
+<div align="center"> 
     <strong> <h3> Figure 1: Histogram of Y &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp Figure 2: Histogram of Transformed Y </h3> </strong>
     
-</ul>
+</div>
 
 <p align="middle">
   <img width="347" height="292" src= https://www.dropbox.com/scl/fi/ar3oemz56a6zmew28qdoq/Figure-1-Histogram-of-Y.png?rlkey=28ti6e56onmpoas79ax2cmsea&st=w1ft4yu4&raw=1>
@@ -156,11 +158,11 @@ With the variables relevant to the study chosen, calculated, and cleaned, histog
 
 <br>
 
-<ul align="center"> 
+<div align="center"> 
     <strong> <h3> Figure 3: Histogram of X15 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp Figure 4: Histogram of Transformed X15
  </h3> </strong>
     
-</ul>
+</div>
 
 <p align="middle">
   <img width="347" height="292" src=https://www.dropbox.com/scl/fi/ea0x546ouphkwr12tpxbd/Figure-3-Histogram-of-X15.png?rlkey=dh39hcp58hevraovlkga71fei&st=qhrsskgd&raw=1>
@@ -172,10 +174,10 @@ With the variables relevant to the study chosen, calculated, and cleaned, histog
 <br>
 
 
-<ul align="center"> 
+<div align="center"> 
     <strong> <h3> Table 2: Descriptive Statistics </h3> </strong>
     
-</ul>
+</div>
 
 
 <p align="center"> 
@@ -194,10 +196,10 @@ We explored further by taking a look into the correlation and scatterplot matrix
 <br>
 
 
-<ul align="center"> 
+<div align="center"> 
     <strong> <h3> Table 3: Correlation Matrix </h3> </strong>
     
-</ul>
+</div>
 
 
 <p align="center"> 
@@ -211,10 +213,10 @@ We explored further by taking a look into the correlation and scatterplot matrix
 
 
 
-<ul align="center"> 
+<div align="center"> 
     <strong> <h3> Table 4: Scatterplot Matrix </h3> </strong>
     
-</ul>
+</div>
 
 
 <p align="center"> 
@@ -266,10 +268,10 @@ Looking at the residual plot in Figure 5 of the next page shows the observations
 
 <br>
 
-<ul align="center"> 
+<div align="center"> 
     <strong> <h3> Figure 5: Residual Plot </h3> </strong>
     
-</ul>
+</div>
 
 
 <p align="center"> 
@@ -282,10 +284,10 @@ Looking at the residual plot in Figure 5 of the next page shows the observations
 <br>
 
 
-<ul align="center"> 
+<div align="center"> 
     <strong> <h3> Figure 6: QQ Plot </h3> </strong>
     
-</ul>
+</div>
 
 
 <p align="center"> 
@@ -304,10 +306,10 @@ Taking a look at Cooks Distance, several observations appear to be influential u
 <br>
 
 
-<ul align="center"> 
+<div align="center"> 
     <strong> <h3> Figure 7: Leverage Plot </h3> </strong>
     
-</ul>
+</div>
 
 
 <p align="center"> 
@@ -345,14 +347,14 @@ Y=e<sup>1.607+0.201x1+0.121x2+0.245x5-0.131x6+0.894x8+0.001x12+0.001x13+0.823log
 
 
 <br>   
-<ul align="center"> 
+<div align="center"> 
     <strong> <h3> Table 4: List of Final Model Variables </h3> </strong>
     
-</ul>
+</div>
 
 
 
-<p align="center"> 
+<div align="center"> 
 
 
 | Variable | Variable Name in Datasets | Type |
@@ -368,7 +370,7 @@ Y=e<sup>1.607+0.201x1+0.121x2+0.245x5-0.131x6+0.894x8+0.001x12+0.001x13+0.823log
 | X17 | Avg Length of Stay (including LTC) | Continuous |
 | X18 | (Occupancy Rate (available beds)) | Continuous |
 
-</p>
+</div>
 
 <br>
 
